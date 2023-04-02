@@ -1,19 +1,43 @@
-plugins {
-    id 'java'
-}
+subprojects {
+    apply plugin: 'java'
 
-group 'me.howandev'
-version '1.0-SNAPSHOT'
+    group = 'me.howandev'
+    version = '1.0'
+    description = 'Adds 2FA Context to LuckPerms'
 
-repositories {
-    mavenCentral()
-}
+    repositories {
+        mavenCentral()
+    }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
+    dependencies {
+        implementation 'org.jetbrains:annotations:24.0.1'
+        implementation 'dev.samstevens.totp:totp:1.7.1'
+        compileOnly 'net.luckperms:api:5.4'
+    }
 
-test {
-    useJUnitPlatform()
+    def targetJavaVersion = 17
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+            options.release = targetJavaVersion
+        }
+    }
+
+    processResources {
+        def props = [name: project.parent.name, version: project.version, description: project.description]
+        inputs.properties props
+        expand props
+        filteringCharset 'UTF-8'
+        filesMatching(['bungee.yml', 'plugin.yml']) {
+            expand props
+        }
+    }
 }

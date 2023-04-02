@@ -1,19 +1,25 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-group 'me.howandev'
-version '1.0-SNAPSHOT'
-
 repositories {
-    mavenCentral()
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.15.2-R0.1-SNAPSHOT'
+    implementation 'dev.samstevens.totp:totp:1.7.1'
+    implementation project(':Common')
 }
 
-test {
-    useJUnitPlatform()
+shadowJar {
+    archiveFileName = "${project.parent.name}-${project.name}-${project.version}.jar"
+
+    dependencies {
+    }
+}
+
+artifacts {
+    archives shadowJar
 }

@@ -1,0 +1,55 @@
+# All plugin messages accept normal and JSON formatting, I recommend that you test messages
+# using /tellraw command before setting them up for good.
+messages:
+  info:
+    creating-user: 'There is no multi-factor authentication setup for you, generating new one for you now.'
+    already-verified: "Hold up! your authentication is still valid :)"
+    qr-url: '{"text":"Click this message to open a link to QR code you can scan with your authenticator app, once you have done that, use /verify <code> to complete creation process.","clickEvent":{"action":"open_url","value":"https://chart.googleapis.com/chart?&cht=qr&chs=500x500&chl=%data%"}}'
+  success:
+    auth-created: "Successfully created authentication for you, don't share your token with anyone!"
+    verified: 'Successfully verified!'
+  failure:
+    code-not-valid: 'Unfortunately the code you provided is not valid :('
+    cannot-generate-qr: 'There was an internal exception while generating QR code for you.'
+
+database-settings:
+  this: 'is a placeholder!'
+
+# --- Warning! ---
+# If any of your users already have a generated secret, and have completed verification process
+# They won't be able to verify properly if you make changes to settings here
+mfa-settings:
+  # Time (in seconds) for how long user will be authenticated after providing code.
+  # If set to negative value, authentication will not be invalidated.
+  validation-timeout: 300
+
+  # Label that will appear in the authenticator, usually something short, like: username, nickname, email or similar.
+  # Available (internal) Placeholders:
+  # - %player_name% - name of the player
+  auth-label: '%player_name%'
+
+  # Issuer that will appear in the authenticator, usually a company, project or server name
+  auth-issuer: 'LuckPerms'
+
+  #TODO: add command limits, time deducted for each context-bound command, inactivity timeout etc...
+
+  # Options below are disabled for a reason, unless you know what you're doing - please keep them that way.
+  # Length of generated secret for user.
+  # Any positive non-zero integer.
+  #token-length: 32
+
+  # Length of generated code, recommended that you leave it 6-digit.
+  # Previously generated codes will not match if this is changed.
+  # Any positive non-zero integer
+  #code-length: 6
+
+  # Hashing algorithm used to generate, and verify codes.
+  # Previously generated codes will not match if this is changed.
+  # Values: SHA1 / SHA256 / SHA512
+  #hashing-algorithm: SHA1
+
+  # Time (in seconds) for which the code will be valid.
+  # Previously generated codes will not match if this is changed.
+  # Any positive non-zero integer
+  #code-expiry: 30
+

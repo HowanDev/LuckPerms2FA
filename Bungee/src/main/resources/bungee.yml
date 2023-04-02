@@ -1,0 +1,6 @@
+name: $name
+version: $version
+main: me.howandev.luckperms2fa.LuckPerms2FA
+depend: [ LuckPerms ]
+author: HowanDev
+description: $description

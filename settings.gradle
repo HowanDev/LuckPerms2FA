@@ -1,2 +1,5 @@
 rootProject.name = 'LuckPerms2FA'
+include 'Bungee'
+include 'Bukkit'
+include 'Common'
 
